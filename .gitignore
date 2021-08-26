@@ -1,0 +1,9 @@
+*.log
+*.aux
+*.out
+*.nav
+*.toc
+*.snm
+*.xmpdata
+pdfa.xmpi
+*.swp

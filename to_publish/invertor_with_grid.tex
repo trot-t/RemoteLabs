@@ -1,0 +1,66 @@
+%\begin{table}[!ht]
+%\begin{tabular}{cc} 
+%\begin{minipage}[h]{0.5\linewidth} 
+%\begin{figure}[!ht]
+\begin{circuitikz}[scale=1]
+\ctikzset{bipoles/length=1.0cm}
+
+\draw(1.25,2.65)node[nigbt,bodydiode](npn1){};% 1 ряд 
+%\node[nigbt,bodydiode] (npn1) at (1.25,3.1) {};% 1 ряд 
+\draw (1.25,.55) node[nigbt,bodydiode](npn4){};%1ряд
+\draw (npn1.S) -- (npn4.D);
+
+% найдем положение плюсовой шины
+\path let \p1 = (npn1.D) in node(plus)  at (0,\y1) {};
+\draw (0,0) to[C] (plus);
+
+\draw(2.75,2.65)node[nigbt,bodydiode](npn3){};% 2 ряд 
+\draw (2.75,.55) node[nigbt,bodydiode](npn6){};% 2ряд
+\draw (npn3.S) -- (npn6.D);
+
+\draw (4.25,2.65)node[nigbt,bodydiode](npn5){};;%последний ряд 
+\draw (4.25,.55) node[nigbt,bodydiode](npn2){};%последний ряд
+\draw (npn5.S) -- (npn2.D);
+
+\draw (plus.center) --(npn1.D) node[above]{1} -- (npn3.D) node[above]{3} -- (npn5.D) node[above]{5}; % плюсовая шина
+\draw (0,0) -- (npn4.S) node[below]{4} -- (npn6.S) node[below]{6} -- (npn2.S) node[below]{2}; % минусовая шина
+
+\ctikzset{iloop /.style={width=2.0}}
+
+	\draw ($(npn5.S)!0.8!(npn2.D)$)   node[left]{\scriptsize$C$} to[short,*-] ++ (0.5,0) to[iloop, name=Ic, mirror] ++(0.5,0) to[L,american inductor,-*] ++ (1.5,0)  node(C) {};
+\draw ($(npn3.S)!0.5!(npn6.D)$) node[left]{\scriptsize$B$} to[short,*-] ($(npn5.S)!0.5!(npn2.D)$) -- ++ (1.0,0) to[L,american inductor,-*] ++ (1.5,0);  % катуха В 
+	\draw ($(npn1.S)!0.2!(npn4.D)$) node[left]{\scriptsize$A$}  to[iloop, name=Ia, mirror,*-] ++(1.5,0) to[short] ($(npn5.S)!0.2!(npn2.D)$) -- ++ (1.0,0) to[L,american inductor,l={\small L},-*] ++ (1.5,0) node(A) {};
+
+	\draw (A.center)--(C.center) (A.center) --++(0,1.5) (C.center) --++ (0,-1.5);
+
+	\draw (A.center) ++(0.1,0.8) --++ (-0.2,0.2);
+	\draw (A.center) ++(0.1,0.9) --++ (-0.2,0.2);
+	\draw (A.center) ++(0.1,1.0) --++ (-0.2,0.2);
+
+	\draw (Ia) --++ (0,-2.5) node[below] {\small $i_A$}; 
+	\draw (Ic) --++ (0,-2) node[below] {\small $i_C$}; 
+\end{circuitikz}
+%\end{figure}
+%\end{minipage} 
+%&
+%       {\hspace{-0.1cm}
+%\begin{minipage}[h]{0.5\linewidth}
+%\begin{figure}[!ht]
+        \begin{circuitikz}[scale=1]
+\newcommand{\D}{2.4}
+\newcommand{\I}{1.85}
+        \draw[thin] (0,0) --({\D*cos(0)},{\D*sin(0)})   node(A) {} node[right] {\tiny(100)};
+        \draw[thin] (0,0) --({\D*cos(60)},{\D*sin(60)}) node(W) {} node[above right] {\tiny(110)};
+        \draw[thin] (0,0) --({\D*cos(120)},{\D*sin(120)}) node(B) {} node[above left] {\tiny(010)};
+        \draw[thin] (0,0) --({\D*cos(180)},{\D*sin(180)}) node(U) {} node[left] {\tiny(011)};
+        \draw[thin] (0,0) --({\D*cos(240)},{\D*sin(240)}) node(C) {} node[below left] {\tiny(001)};
+        \draw[thin] (0,0) --({\D*cos(300)},{\D*sin(300)}) node(V) {} node[below right] {\tiny(101)};
+        \draw[thin] (A.center) -- (W.center) -- (B.center) -- (U.center) -- (C.center) -- (V.center) -- (A.center);
+        \draw[very thin,red,dashed] (0,0) circle ({\I});
+        \draw[fill, white] ({\I*cos(25)},{\I*sin(25)})  rectangle  ({\I*cos(25)+0.5},{\I*sin(25)+0.5});
+        \draw[->,>=latex,thick,red] (0,0) -- ({\I*cos(25)},{\I*sin(25)}) node[above right] {$\vec{U}$};
+
+\end{circuitikz}
+%        \caption{схема инвертора напряжения ведомого сетью и изображающий вектор напряжения инвертора}
+%        \label{invertor_with_grid}
+%\end{figure}
